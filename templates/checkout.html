@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container">
+    <div class="glass-panel">
+        <h2 class="glow-text">Secure Checkout</h2>
+        <div class="itinerary margin-top-lg glass-card">
+            <h3>Final VoyageSync Itinerary</h3>
+            {% if item_type == 'flight' %}
+                <p>Carrier: {{ item.airline }}</p>
+                <p>Route: {{ item.departure }} to {{ item.destination }}</p>
+            {% else %}
+                <p>Property: {{ item.name }}</p>
+                <p>Location: {{ item.location }}</p>
+            {% endif %}
+            <h3 class="margin-top-lg">Total Charge: $<span class="glow-text">{{ price }}</span></h3>
+        </div>
+        <form action="{{ url_for('confirmation') }}" method="POST" class="checkout-form margin-top-xl">
+            <input type="hidden" name="item_type" value="{{ item_type }}">
+            <input type="hidden" name="total_price" value="{{ price }}">
+            <h3>Traveler Details</h3>
+            <div class="form-group">
+                <input type="text" placeholder="Full Legal Name" class="glass-input" required>
+                <input type="text" placeholder="Passport / ID Number" class="glass-input" required>
+            </div>
+            <div class="payment-mock glass-card margin-top-lg">
+                <h3 class="glow-text">Payment Gateway Integration</h3>
+                <input type="text" placeholder="Cardholder Name" class="glass-input" required>
+                <input type="text" placeholder="16-Digit Card Number" class="glass-input" required>
+                <div class="form-group-inline">
+                    <input type="text" placeholder="MM/YY" class="glass-input" required>
+                    <input type="text" placeholder="CVC" class="glass-input" required>
+                </div>
+            </div>
+            <div class="cta-group margin-top-xl">
+                <button type="submit" class="neon-btn">Complete Booking</button>
+                <a href="{{ url_for('index') }}" class="neon-btn">Back to Search</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

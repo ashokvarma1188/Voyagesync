@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="dashboard">
+    <div class="main-content">
+        <h2 class="glow-text">Flight Selection Dashboard</h2>
+        <div class="grid">
+            {% for flight in flights %}
+            <div class="glass-card selectable-item" data-id="{{ flight.id }}" data-price="{{ flight.price }}" data-type="flight">
+                <h3>{{ flight.airline }}</h3>
+                <p>{{ flight.departure }} to {{ flight.destination }}</p>
+                <p>Departure Time: {{ flight.time }}</p>
+                <div class="glow-badge">${{ flight.price }}</div>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="margin-top-xl">
+            <a href="{{ url_for('index') }}" class="neon-btn">Back to Search</a>
+        </div>
+    </div>
+    <aside class="billing-engine glass-panel sticky">
+        <h3>Specialty Billing Engine</h3>
+        <div id="cost-breakdown" class="animated-panel">
+            <p>Select a flight segment to view real-time pricing.</p>
+        </div>
+        <form action="{{ url_for('checkout') }}" method="POST" id="checkout-form">
+            <input type="hidden" name="item_id" id="form_item_id">
+            <input type="hidden" name="item_type" id="form_item_type">
+            <input type="hidden" name="total_price" id="form_total_price">
+            <button type="submit" class="neon-btn full-width margin-top-lg" id="proceed-btn" disabled>Proceed to Checkout</button>
+        </form>
+    </aside>
+</div>
+{% endblock %}

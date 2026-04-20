@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VoyageSync</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div id="flash-container" class="flash-container">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="flash-message {{ category }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+    </div>
+
+    <nav class="glass-nav">
+        <a href="{{ url_for('index') }}" class="logo" style="text-decoration: none;">VoyageSync</a>
+        
+        <div class="nav-links">
+            <a href="{{ url_for('index') }}">Home</a>
+            {% if current_user %}
+                <a href="{{ url_for('profile') }}">Access Profile</a>
+                <a href="{{ url_for('logout') }}">Logout</a>
+            {% else %}
+                <a href="#" id="openModalBtn">Login / Signup</a>
+            {% endif %}
+        </div>
+    </nav>
+
+    <div id="authModal" class="modal">
+        <div class="modal-content glass-panel">
+            <span class="close">&times;</span>
+            
+            <div class="auth-tabs">
+                <button class="tab-btn active" onclick="switchTab('login')">Login</button>
+                <button class="tab-btn" onclick="switchTab('signup')">Sign Up</button>
+                <button class="tab-btn" onclick="switchTab('reset')" id="resetTab" style="display: none;">Reset</button>
+            </div>
+
+            <form id="loginForm" action="{{ url_for('login') }}" method="POST" class="auth-form active">
+                <input type="email" name="email" placeholder="Email" class="glass-input" required>
+                <input type="password" name="password" placeholder="Password" class="glass-input" required>
+                <button type="submit" class="neon-btn full-width margin-top-lg">Login to Account</button>
+                <p style="text-align: center; margin-top: 15px;">
+                    <a href="#" onclick="switchTab('reset')" style="color: var(--neon-teal); text-decoration: none; font-size: 0.9rem;">Forgot Password?</a>
+                </p>
+            </form>
+
+            <form id="signupForm" action="{{ url_for('signup') }}" method="POST" class="auth-form">
+                <input type="text" name="username" placeholder="Username" class="glass-input" required>
+                <input type="email" name="email" placeholder="Email" class="glass-input" required>
+                <input type="password" name="password" placeholder="Password" class="glass-input" required>
+                <input type="password" name="confirm_password" placeholder="Confirm Password" class="glass-input" required>
+                <button type="submit" class="neon-btn full-width margin-top-lg">Create Account</button>
+            </form>
+
+            <form id="resetForm" action="{{ url_for('reset_password') }}" method="POST" class="auth-form">
+                <h3 style="margin-bottom: 10px; color: var(--text-main); text-align: center;">Reset Password</h3>
+                <p style="text-align: center; font-size: 0.9rem; margin-bottom: 20px; color: #a0aec0;">Enter your 10-word recovery phrase to set a new password.</p>
+                <input type="email" name="email" placeholder="Registered Email" class="glass-input" required>
+                <input type="text" name="phrase" placeholder="10-Word Recovery Phrase" class="glass-input" required>
+                <input type="password" name="new_password" placeholder="New Password" class="glass-input" required>
+                <button type="submit" class="neon-btn full-width margin-top-lg">Update Password</button>
+            </form>
+        </div>
+    </div>
+
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="dashboard">
+    <div class="main-content">
+        <h2 class="glow-text">Hotel Selection Dashboard</h2>
+        <div class="controls margin-top-lg">
+            <select id="sort-select" class="glass-input width-auto">
+                <option value="none">Sort by Pricing</option>
+                <option value="asc">Price: Low to High</option>
+                <option value="desc">Price: High to Low</option>
+            </select>
+        </div>
+        <div class="grid" id="hotel-grid">
+            {% for hotel in hotels %}
+            <div class="glass-card selectable-item hotel-item" data-id="{{ hotel.id }}" data-price="{{ hotel.price_per_night }}" data-type="hotel">
+                <h3>{{ hotel.name }}</h3>
+                <p>{{ hotel.location }} | {{ hotel.room_type }}</p>
+                <div class="glow-badge">${{ hotel.price_per_night }} / night</div>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="margin-top-xl">
+            <a href="{{ url_for('index') }}" class="neon-btn">Back to Search</a>
+        </div>
+    </div>
+    <aside class="billing-engine glass-panel sticky">
+        <h3>Cost Breakdown Panel</h3>
+        <div class="input-group margin-top-lg">
+            <label>Duration of Stay (Nights):</label>
+            <input type="number" id="nights-input" class="glass-input" value="1" min="1">
+        </div>
+        <div id="cost-breakdown" class="animated-panel margin-top-lg">
+            <p>Select a luxury property to view costs.</p>
+        </div>
+        <form action="{{ url_for('checkout') }}" method="POST" id="checkout-form">
+            <input type="hidden" name="item_id" id="form_item_id">
+            <input type="hidden" name="item_type" id="form_item_type">
+            <input type="hidden" name="total_price" id="form_total_price">
+            <button type="submit" class="neon-btn full-width margin-top-lg" id="proceed-btn" disabled>Confirm Selection</button>
+        </form>
+    </aside>
+</div>
+{% endblock %}

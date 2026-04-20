@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container" style="display: flex; justify-content: center; margin-top: 4rem;">
+    <div class="glass-panel" style="width: 100%; max-width: 450px;">
+        <h2 class="glow-text" style="text-align: center; margin-bottom: 1.5rem;">Create New Password</h2>
+        <form action="{{ url_for('reset_token', token=token) }}" method="POST">
+            <input type="password" name="new_password" placeholder="Enter New Password" class="glass-input" required>
+            <button type="submit" class="neon-btn full-width margin-top-lg">Update Password</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

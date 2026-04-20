@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container">
+    <div class="glass-panel">
+        <h2 class="glow-text">User Profile: {{ user.username }}</h2>
+        <p>Account Email: {{ user.email }}</p>
+        
+        <h3 class="margin-top-xl">Booking History</h3>
+        <div class="grid">
+            {% for booking in user.bookings %}
+            <div class="glass-card">
+                <p>Booking Type: {{ booking.type | capitalize }}</p>
+                <p>Reference: <span class="glow-text">{{ booking.reference_number }}</span></p>
+                <p>Total Cost: $<span class="glow-text">{{ booking.total_cost }}</span></p>
+            </div>
+            {% else %}
+            <p>No prior bookings found.</p>
+            {% endfor %}
+        </div>
+        
+        <div class="margin-top-xl">
+            <a href="{{ url_for('index') }}" class="neon-btn">Back to Home</a>
+        </div>
+
+        <div class="divider"></div>
+        
+        <div class="danger-zone margin-top-lg">
+            <h3 style="color: #ff4757; margin-bottom: 1rem;">Danger Zone</h3>
+            <p style="margin-bottom: 1rem; color: #a0aec0; font-size: 0.9rem;">Once you delete your account, there is no going back. All your data and booking history will be permanently erased.</p>
+            
+            <form action="{{ url_for('delete_account') }}" method="POST" onsubmit="return confirm('Are you absolutely sure you want to delete your account? This action cannot be undone.');">
+                <button type="submit" class="neon-btn" style="border-color: #ff4757; color: #ff4757;">Permanently Delete Account</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

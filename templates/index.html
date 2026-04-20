@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="hero">
+    <div class="hero-content glass-panel" style="max-width: 800px;">
+        <h1 class="glow-text">Experience VoyageSync</h1>
+        <p style="font-size: 1.2rem; color: #a0aec0; margin-bottom: 2.5rem;">The premium portal for your AeroRail and global travel needs.</p>
+        
+        <div class="cta-group">
+            <a href="{{ url_for('flights') }}" class="neon-btn">Search Flights</a>
+            <a href="{{ url_for('hotels') }}" class="neon-btn">Search Hotels</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
